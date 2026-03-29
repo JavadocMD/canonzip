@@ -1,0 +1,49 @@
+[project]
+name = "canonzip"
+version = "1.0.0"
+requires-python = ">=3.11"
+
+authors = [{ name = "Tyler Coles", email = "tylercoles@javadocmd.com" }]
+description = "Produce canonical zips and hashes."
+readme = "README.md"
+
+dependencies = [
+    "pygit2==1.19.1",
+    "typer==0.24.1",
+]
+
+[project.scripts]
+canonzip = "canonzip.cli:app"
+
+[build-system]
+requires = ["uv_build>=0.11.0,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest==9.0.2",
+    "ruff==0.15.7",
+]
+
+[tool.ruff.lint]
+preview = true
+select = ["ALL"]
+
+# Ruff ignores:
+# - CPY: no need for copyright notice at the top of every file
+# - COM812: Ruff recommends disabling this when using formatter
+ignore = ["CPY", "COM812"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+# - S101: we are allowed to use `assert` in pytest
+# - D103: no docstrings required
+"tests/**/*.py" = ["S101", "D103"]
+
+[tool.ruff.lint.flake8-builtins]
+ignorelist = ["hash", "zip"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.format]
+preview = true

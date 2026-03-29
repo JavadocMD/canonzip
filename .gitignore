@@ -1,0 +1,19 @@
+# from: https://github.com/github/gitignore/blob/main/Python.gitignore
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[codz]
+*$py.class
+
+# Distribution / packaging
+dist/
+
+# Unit test / coverage reports
+.pytest_cache/
+
+# Environments
+.env
+.venv
+
+# Ruff
+.ruff_cache/
