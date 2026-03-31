@@ -14,6 +14,9 @@ only if the code has truly changed.
 
 canonzip supports two usage modes: as a CLI or as an API.
 
+Check out [`examples/terraform-aws-lambda`](./examples/terraform-aws-lambda/)
+for an example use-case.
+
 ## Command Line Interface (CLI)
 
 ### `canonzip hash [OPTIONS] TARGET`
