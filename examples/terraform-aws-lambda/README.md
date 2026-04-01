@@ -15,6 +15,18 @@ Terraform to think there's always a change and thus redeploy the function
 unnecessarily, every time you apply. canonzip eliminates this by guaranteeing
 byte-identical zips for identical content.
 
+## Why not Terraform's `archive_file`?
+
+For certain use-cases, archive_file may of course be perfectly fine.
+Just make sure to set the `output_file_mode` option in order to ensure
+cross-platform repeatability. canonzip does have two unique advantages:
+it can leverage your existing gitignore patterns for excludes, and it can
+be used outside of Terraform for more involved build scripting. Additionally,
+dome projects may benefit from being able to compute hashes without writing
+the full zip file, but in a way where the hash and the zip file share similar
+identity properties (either they both change or neither does). Whether you
+find these features useful is up to you.
+
 ## How it works
 
 - `main.tf` is the Terraform file

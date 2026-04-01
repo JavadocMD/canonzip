@@ -53,8 +53,11 @@ Both commands accept:
 | `--verbose, -v` | Print included file paths (relative to target) to stderr |
 | `--json` | Output result as JSON (e.g. `{"hash": "..."}`) |
 
+If you specify both `exclude` and `gitignore`, files will be excluded as long
+as they match at least one rule (logical or).
+
 NOTE: exclude double-star globs (**) match one-or-more path segments;
-contrary to gitignore syntax.where they match zero-or-more.
+contrary to gitignore syntax where they match zero-or-more.
 
 ## Programmatic Interface (API)
 
@@ -87,8 +90,11 @@ Both functions accept:
 | `gitignore` | `bool` | `False` | Exclude files based on `.gitignore` rules from the target's git repository |
 | `follow_symlinks` | `bool` | `False` | Follow symbolic links; if `False`, symlinks are ignored |
 
+If you specify both `exclude` and `gitignore`, files will be excluded as long
+as they match at least one rule (logical or).
+
 NOTE: exclude double-star globs (**) match one-or-more path segments;
-contrary to gitignore syntax.where they match zero-or-more.
+contrary to gitignore syntax where they match zero-or-more.
 
 ### Exceptions
 

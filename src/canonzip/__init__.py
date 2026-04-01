@@ -1,5 +1,7 @@
 """canonzip is a library for producing canonical zips and hashes."""
 
+from importlib.metadata import version
+
 from canonzip.exceptions import (
     BrokenSymlinkError,
     CanonzipError,
@@ -25,3 +27,5 @@ __all__ = [
     "zip",
     "zip_from_manifest",
 ]
+
+__version__: str = version("canonzip")

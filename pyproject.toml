@@ -6,11 +6,29 @@ requires-python = ">=3.11"
 authors = [{ name = "Tyler Coles", email = "tylercoles@javadocmd.com" }]
 description = "Produce canonical zips and hashes."
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Topic :: Utilities",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Typing :: Typed",
+]
 
 dependencies = [
     "pygit2==1.19.1",
     "typer==0.24.1",
 ]
+
+[project.urls]
+Repository = "https://github.com/JavadocMD/canonzip.git"
 
 [project.scripts]
 canonzip = "canonzip.cli:app"

@@ -1,0 +1,66 @@
+# Publish when pushing a tag starting with a `v`, e.g., v1.0.0
+
+# Note: uv_build doesn't yet support dynamic versions, so it's on us to
+# keep things in sync. This workflow will fail if the tag version and the
+# pyproject.toml version are mismatched.
+
+name: "Publish"
+
+on:
+  push:
+    tags:
+      - v*
+
+concurrency:
+  group: publish
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    
+    environment:
+      name: pypi
+
+    permissions:
+      id-token: write
+      contents: read
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
+        with:
+          version: ${{ vars.UV_VERSION }}
+
+      - name: Check version matches tag
+        run: |
+          pkg_version="v$(uv version --short)"
+          tag_version="${GITHUB_REF_NAME}"
+          if [ "$pkg_version" != "$tag_version" ]; then
+            echo "Version mismatch: pyproject.toml has $pkg_version but tag is $tag_version"
+            exit 1
+          fi
+
+      - name: Build
+        run: uv build
+
+      - name: Smoke test (wheel)
+        run: uv run --isolated --no-project --with pytest --with dist/*.whl pytest tests/smoke_test.py
+
+      - name: Smoke test (source distribution)
+        run: uv run --isolated --no-project --with pytest --with dist/*.tar.gz pytest tests/smoke_test.py
+
+      - name: Publish (PyPI)
+        run: uv publish
+
+      - name: Publish (GitHub)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          version="$(uv version --short)"
+          wheel_file="./dist/canonzip-${version}-py3-none-any.whl"
+          source_file="./dist/canonzip-${version}.tar.gz"
+          gh release create "v${version}" --draft --generate-notes $wheel_file $source_file
