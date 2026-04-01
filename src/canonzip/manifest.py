@@ -8,7 +8,7 @@ from __future__ import annotations
 import stat
 from collections.abc import Callable, Generator, Iterable, Sequence
 from dataclasses import dataclass
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 import pygit2
 
@@ -122,7 +122,7 @@ def exclude_by_patterns(
     patterns_list = list(patterns)
 
     def exclude(file_entry: FileEntry) -> bool:
-        path = file_entry.path_relative
+        path = PurePosixPath(file_entry.path_relative)
         match = any(
             any(candidate.match(p) for p in patterns_list)  # check each pattern
             for candidate in [path, *path.parents[:-1]]  # check each path and parents
